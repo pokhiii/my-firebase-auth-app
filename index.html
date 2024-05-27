@@ -11,7 +11,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+        import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
 
         // Import the firebase configuration from an external file
         import firebaseConfig from './firebaseConfig.js';
@@ -21,7 +21,7 @@
         const provider = new GoogleAuthProvider();
 
         document.getElementById('googleSignIn').addEventListener('click', () => {
-            signInWithPopup(auth, provider)
+            signInWithRedirect(auth, provider)
                 .then((result) => {
                     const user = result.user;
                     console.log("User Info: ", user);
@@ -31,6 +31,28 @@
                     console.error("Error during sign-in: ", error);
                 });
         });
+
+        getRedirectResult(auth)
+            .then((result) => {
+                if (!result) {
+                    return;
+                }
+
+                // This gives you a Google Access Token. You can use it to access Google APIs.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+
+                // The signed-in user info.
+                const user = result.user;
+                // IdP data available using getAdditionalUserInfo(result)
+
+                console.log(user)
+            }).catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.customData.email;
+                const credential = GoogleAuthProvider.credentialFromError(error);
+            });
       </script>
 </body>
 </html>
