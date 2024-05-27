@@ -13,15 +13,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
 
-        // Add your Firebase config. Get from Firebase console.
-        const firebaseConfig = {
-          apiKey: "",
-          authDomain: "",
-          projectId: "",
-          storageBucket: "",
-          messagingSenderId: "",
-          appId: "",
-        };
+        // Import the firebase configuration from an external file
+        import firebaseConfig from './firebaseConfig.js';
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
